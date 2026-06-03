@@ -1,8 +1,14 @@
 import express from "express";
-import {placeOrder, placeOrderRazorpay} from "../controllers/orderController.js";
+import { placeOrderRazorpay, getOrder, verifyPayment} from "../controllers/orderController.js";
 
 const Orderrouter = express.Router();
-Orderrouter.post("/placeorder", placeOrder);
-Orderrouter.post("/placeorder/razorpay", placeOrderRazorpay);
+Orderrouter.post("/razorpay", placeOrderRazorpay);
+Orderrouter.post("/verifyPayment", verifyPayment);
+Orderrouter.get("/MyOrders/:userId", getOrder);
+
+
+Orderrouter.get("/test", (req,res)=>{
+   res.json({message:"Order route working"});
+});
 
 export default Orderrouter;

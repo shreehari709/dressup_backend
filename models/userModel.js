@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
         default:"",
         //required: true,
     },
+
+    pincode:{
+        type: Number,
+        required:true,
+    },
     cartData: {
         type: Object,
         default: {},

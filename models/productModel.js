@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const productSchema = new mongoose.Schema({
-    name: {
+    productname: {
         type: String,
         required: true,
     },
