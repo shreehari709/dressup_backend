@@ -12,7 +12,9 @@ const registerUser = async (req, res) => {
       name,
       email,
       contactNumber,
-      password
+      password,
+      confirmPassword
+
     } = req.body;
 
     const userExists = await userModel.findOne({
@@ -35,6 +37,15 @@ const registerUser = async (req, res) => {
         message: "Please enter a valid email"
       });
     }
+
+
+    if (password !== confirmPassword) {
+  return res.status(400).json({
+    success: false,
+    message: "Passwords do not match",
+  });
+}
+
 
     if (password.length < 8) {
       return res.status(400).json({

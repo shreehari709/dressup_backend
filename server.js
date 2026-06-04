@@ -8,10 +8,11 @@ import cloudinaryConfig from './config/cloudinary.js';
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 //import authRoutes from './routes/authRoutes.js';
+import resendConfig from "./config/resend.js";
 import orderRoutes from './routes/orderRoutes.js'
 
 dotenv.config();
-
+resendConfig();
 await connectDB(); // Call the connectDB function to establish the database connection
 cloudinaryConfig(); // Call the cloudinaryConfig function to set up Cloudinary configuration
 const app = express();

@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
 
     pincode:{
         type: Number,
+        default:"",
         //required:true,
     },
     cartData: {
