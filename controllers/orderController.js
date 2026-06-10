@@ -7,7 +7,10 @@ export const placeOrderRazorpay = async (req, res) => {
   try {
     //console.log("BODY RECEIVED:");
     //console.log(req.body);
-
+      const estimatedDelivery = new Date();
+estimatedDelivery.setDate(
+  estimatedDelivery.getDate() + 14
+);
     const {
       amount,
       items,
@@ -53,6 +56,8 @@ export const placeOrderRazorpay = async (req, res) => {
         items,
 
         address,
+
+        estimatedDelivery,
 
         payment: false,
 
@@ -109,6 +114,15 @@ export const verifyPayment = async (
           "Payment verification failed",
       });
     }
+
+
+    const estimatedDelivery =
+  new Date();
+
+estimatedDelivery.setDate(
+  estimatedDelivery.getDate() + 14
+);  
+
 
     const updatedOrder =
       await orderModel.findOneAndUpdate(
@@ -175,6 +189,77 @@ export const getOrder = async (
     res.json({
       success: true,
       orders,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await orderModel
+      .find()
+      .sort({ date: -1 });
+
+    res.json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+export const updateOrderStatus = async (
+  req,
+  res
+) => {
+  try {
+    const { id } = req.params;
+
+    const { orderStatus } = req.body;
+
+    if (!orderStatus) {
+      return res.status(400).json({
+        success: false,
+        message: "Order status required",
+      });
+    }
+
+    const updatedOrder =
+      await orderModel.findByIdAndUpdate(
+        id,
+        {
+          orderStatus,
+        },
+        {
+          new: true,
+        }
+      );
+
+    if (!updatedOrder) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message:
+        "Order status updated successfully",
+      order: updatedOrder,
     });
   } catch (error) {
     console.log(error);

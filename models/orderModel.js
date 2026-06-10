@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
+
+      razorpayOrderId: String,
+  razorpayPaymentId: String,
+
     razorpayOrderId: {
       type: String,
       default: "",
@@ -41,11 +45,24 @@ const orderSchema = new mongoose.Schema(
         price: Number,
       },
     ],
+      orderStatus: {
+  type: String,
+  enum: [
+    "Processing",
+    "Shipped",
+    "Delivered",
+    "Cancelled",
+  ],
+  default: "Processing",
+},
 
     date: {
       type: Date,
       default: Date.now,
     },
+     estimatedDelivery: {
+    type: Date,
+  },
   },
   { minimize: false }
 );

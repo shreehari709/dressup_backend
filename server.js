@@ -10,7 +10,8 @@ import productRoutes from './routes/productRoutes.js';
 //import authRoutes from './routes/authRoutes.js';
 import resendConfig from "./config/resend.js";
 import orderRoutes from './routes/orderRoutes.js'
-
+import adminRoute from "./routes/adminRoute.js";
+import orderRouter from "./routes/orderRoutes.js";
 dotenv.config();
 resendConfig();
 await connectDB(); // Call the connectDB function to establish the database connection
@@ -41,11 +42,12 @@ app.get("/", (req, res) => {
   res.send("Server Running");
 });
 app.use('/auth', userRoutes); // Use the user routes for handling user-related endpoints
+app.use("/admin",adminRoute);
 
-app.use('/api/products', productRoutes); // Use the product routes for handling product-related endpoints
-
+app.use("/order", orderRouter);
 //app.use('/api/auth', authRoutes);
 
+app.use('/api/products', productRoutes); // Use the product routes for handling product-related endpoints
 app.use('/order', orderRoutes);
 
 
